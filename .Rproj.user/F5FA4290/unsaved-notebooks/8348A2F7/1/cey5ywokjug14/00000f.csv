@@ -1,0 +1,2 @@
+"0","kpi <- kpi_cards(retail)"
+"0","valueBox(scales::dollar(kpi$total_sales),  ""Total Sales"")"

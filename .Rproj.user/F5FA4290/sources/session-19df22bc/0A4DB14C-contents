@@ -1,0 +1,75 @@
+---
+title: "Retail Profitability Dashboard"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    theme: flatly
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+# 1. Install needed packages if missing
+pkgs <- c("tidyverse","lubridate","janitor","here","scales",
+          "flexdashboard","plotly","DT")
+new <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(new)) install.packages(new, quiet=TRUE)
+invisible(lapply(pkgs, library, character.only=TRUE))
+
+# 2. Load cleaned data
+# NEW:
+source(here::here("R","01_load_data.R"))
+source(here::here("R","02_clean_transform.R"))
+source(here::here("R","04_dashboard_prep.R"))
+
+# 3. Prepare drop down choices
+regions <- sort(unique(retail$region))
+categories <- sort(unique(retail$category))
+```
+
+#
+
+
+
+```{r}
+kpi_cards <- function(df) {
+  tibble::tibble(
+    total_sales  = sum(df$sales, na.rm=TRUE),
+    total_profit = sum(df$profit, na.rm=TRUE),
+    margin       = sum(df$profit, na.rm=TRUE) / sum(df$sales, na.rm=TRUE)
+  )
+}
+
+kpi <- kpi_cards(retail)
+valueBox(scales::dollar(kpi$total_sales),  "Total Sales")
+valueBox(scales::dollar(kpi$total_profit), "Total Profit")
+valueBox(scales::percent(kpi$margin),      "Overall Margin")
+```
+
+
+
+```{r}
+selectInput("region_in", "Region", choices = c("All", regions))
+selectInput("cat_in", "Category", choices = c("All", categories))
+sliderInput("disc_in", "Max Discount", min=0, max=0.8, value=0.8, step=0.05)
+```
+
+```{r}
+reactive_df <- reactive({
+  df <- retail
+  if (input$region_in != "All") df <- df |> filter(region == input$region_in)
+  if (input$cat_in != "All") df <- df |> filter(category == input$cat_in)
+  df |> filter(discount <= input$disc_in)
+})
+
+renderPlotly({
+  by_region <- reactive_df() |>
+    group_by(region) |>
+    summarise(sales = sum(sales), .groups="drop")
+  p <- ggplot(by_region, aes(x=reorder(region, sales), y=sales)) +
+    geom_col(fill="steelblue") + coord_flip() +
+    labs(title="Sales by Region", x=NULL, y="Sales ($)") +
+    scale_y_continuous(labels=scales::dollar)
+  ggplotly(p)
+})
+```

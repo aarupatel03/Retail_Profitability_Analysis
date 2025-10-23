@@ -1,0 +1,24 @@
+{
+    "id": "CDDE47A3",
+    "path": "~/Documents/R_Projects/Retail_Profitability_Dashboard/R/01_load_data.R",
+    "project_path": "R/01_load_data.R",
+    "type": "r_source",
+    "hash": "1629076179",
+    "contents": "",
+    "dirty": false,
+    "created": 1761061841117.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1761061799,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1761061799,
+    "read_only": false,
+    "read_only_alternatives": []
+}

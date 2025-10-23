@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<link href="lib/selectize-0.15.2/css/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="lib/selectize-0.15.2/js/selectize.min.js"></script>
+<script src="lib/selectize-0.15.2/accessibility/js/selectize-plugin-a11y.min.js"></script>
+
+</head>
+<body>
+<div class="form-group shiny-input-container">
+  <label class="control-label" id="region_in-label" for="region_in">Region</label>
+  <div>
+    <select id="region_in" class="shiny-input-select"><option value="All" selected>All</option>
+<option value="Central">Central</option>
+<option value="East">East</option>
+<option value="South">South</option>
+<option value="West">West</option></select>
+    <script type="application/json" data-for="region_in" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+  </div>
+</div>
+</body>
+</html>
