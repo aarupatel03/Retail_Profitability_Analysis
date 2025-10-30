@@ -8,7 +8,7 @@ if (!file.exists(data_path)) {
        "\nPlace the Superstore CSV there and re-run 00_run_all.R.")
 }
 
-# Read and clean names. also fix any invalid UTF-8 chars to avoid mutate/across errors
+# Read and clean names
 raw <- readr::read_csv(
   file   = data_path,
   guess_max = 200000,
